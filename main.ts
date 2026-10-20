@@ -1,4 +1,5 @@
 enum RadioMessage {
+    start = 56380,
     paper = 2792,
     isReady = 7521,
     rock = 22024,
@@ -37,8 +38,8 @@ input.onButtonPressed(Button.A, function () {
                 `)
             SetHand = 1
             ready = 1
-            radio.sendMessage(RadioMessage.message1)
-            radio.sendMessage(RadioMessage.message1)
+            radio.sendMessage(RadioMessage.isReady)
+            radio.sendMessage(RadioMessage.paper)
         }
         if (hand == 2) {
             basic.showLeds(`
@@ -50,8 +51,8 @@ input.onButtonPressed(Button.A, function () {
                 `)
             SetHand = 2
             ready = 1
-            radio.sendMessage(RadioMessage.message1)
-            radio.sendMessage(RadioMessage.message1)
+            radio.sendMessage(RadioMessage.isReady)
+            radio.sendMessage(RadioMessage.rock)
         }
         if (hand == 3) {
             basic.showLeds(`
@@ -63,14 +64,17 @@ input.onButtonPressed(Button.A, function () {
                 `)
             SetHand = 3
             ready = 1
-            radio.sendMessage(RadioMessage.message1)
-            radio.sendMessage(RadioMessage.message1)
+            radio.sendMessage(RadioMessage.isReady)
+            radio.sendMessage(RadioMessage.scissors)
         }
     }
 })
 input.onButtonPressed(Button.AB, function () {
+    wait = 0
+    // They don't have a wait block so I have to do this dumb thing 
+    pauseUntil(() => wait == 2)
     if (pair == 0) {
-        radio_number = randint(10, 60)
+        radio_number = randint(70, 85)
         radio.sendNumber(radio_number)
         pair = 1
         basic.showLeds(`
@@ -91,6 +95,7 @@ input.onButtonPressed(Button.AB, function () {
 })
 input.onButtonPressed(Button.B, function () {
     if (ready == 1 && isReady == 1) {
+        aniDone = 1
         if (hand == 1) {
             if (hand2 == 1) {
                 won = 3
@@ -179,8 +184,9 @@ input.onLogoEvent(TouchButtonEvent.Pressed, function () {
 radio.onReceivedMessage(RadioMessage.scissors, function () {
     hand2 = 3
 })
-let aniDone = 0
 let hand2 = 0
+let aniDone = 0
+let wait = 0
 let SetHand = 0
 let hand = 0
 let radio_number = 0
@@ -193,6 +199,17 @@ pair = 0
 isReady = 0
 ready = 0
 radio.setGroup(2)
+radio.sendMessage(RadioMessage.start)
+loops.everyInterval(1000, function () {
+    wait += 1
+})
+basic.forever(function () {
+    if (ready == 1 && aniDone == 0 && won == 10) {
+        basic.showIcon(IconNames.SmallDiamond)
+        basic.showIcon(IconNames.Diamond)
+        basic.showIcon(IconNames.Target)
+    }
+})
 basic.forever(function () {
     radio.setGroup(radio_number)
     if (won == 1) {
@@ -211,37 +228,46 @@ basic.forever(function () {
     }
 })
 basic.forever(function () {
-    if (isReady == 1 && aniDone == 0) {
-        basic.showIcon(IconNames.SmallDiamond)
-        basic.showIcon(IconNames.Diamond)
-        basic.showIcon(IconNames.Target)
+    if (ready == 1 && isReady == 1) {
         aniDone = 1
         if (hand == 1) {
-            basic.showLeds(`
-                . . # # #
-                . # . . #
-                # . . . #
-                # # . # .
-                . # # . .
-                `)
+            if (hand2 == 1) {
+                won = 3
+            } else {
+                if (hand2 == 2) {
+                    won = 1
+                } else {
+                    if (hand2 == 3) {
+                        won = 2
+                    }
+                }
+            }
+        } else if (hand == 2) {
+            if (hand2 == 1) {
+                won = 2
+            } else {
+                if (hand2 == 2) {
+                    won = 3
+                } else {
+                    if (hand2 == 3) {
+                        won = 1
+                    }
+                }
+            }
+        } else if (hand == 3) {
+            if (hand2 == 1) {
+                won = 1
+            } else {
+                if (hand2 == 2) {
+                    won = 2
+                } else {
+                    if (hand2 == 3) {
+                        won = 3
+                    }
+                }
+            }
         }
-        if (hand == 2) {
-            basic.showLeds(`
-                . # # . .
-                . # # # .
-                # # # # #
-                # # # # #
-                . # # # .
-                `)
-        }
-        if (hand == 3) {
-            basic.showLeds(`
-                # . . . #
-                . # . # .
-                . . # . .
-                # # . # #
-                # # . # #
-                `)
-        }
+    } else {
+    	
     }
 })
