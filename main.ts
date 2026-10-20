@@ -193,29 +193,21 @@ won = 10
 pair = 0
 isReady = 0
 ready = 0
-let hasDoneAnimation = 0
 radio.setGroup(2)
 basic.forever(function () {
-    if (isReady == 1 && hasDoneAnimation == 0) {
-        for (let index = 0; index < 1; index++) {
-            basic.showArrow(ArrowNames.North)
-            basic.showArrow(ArrowNames.NorthEast)
-            basic.showArrow(ArrowNames.East)
-            basic.showArrow(ArrowNames.SouthEast)
-            basic.showArrow(ArrowNames.South)
-            basic.showArrow(ArrowNames.SouthWest)
-            basic.showArrow(ArrowNames.West)
-            basic.showArrow(ArrowNames.NorthWest)
-            basic.showArrow(ArrowNames.North)
-            hasDoneAnimation = 1
-        }
+    if (hand > 3) {
+        hand = 0
     }
 })
 basic.forever(function () {
     radio.setGroup(radio_number)
-})
-basic.forever(function () {
-    if (hand > 3) {
-        hand = 0
+    if (won == 1) {
+        basic.showNumber(1)
+    }
+    if (won == 2) {
+        basic.showNumber(2)
+    }
+    if (won == 3) {
+        basic.showNumber(3)
     }
 })
