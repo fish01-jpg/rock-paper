@@ -1,11 +1,11 @@
 enum RadioMessage {
-    message1 = 49434,
-    haswon = 43936,
     paper = 2792,
-    rock = 22024,
-    scissors = 45135,
     isReady = 7521,
-    anidone = 37833
+    rock = 22024,
+    anidone = 37833,
+    haswon = 43936,
+    scissors = 45135,
+    message1 = 49434
 }
 radio.onReceivedNumber(function (receivedNumber) {
     if (input.buttonIsPressed(Button.AB)) {
@@ -37,8 +37,8 @@ input.onButtonPressed(Button.A, function () {
                 `)
             SetHand = 1
             ready = 1
-            radio.sendMessage(RadioMessage.isReady)
-            radio.sendMessage(RadioMessage.paper)
+            radio.sendMessage(RadioMessage.message1)
+            radio.sendMessage(RadioMessage.message1)
         }
         if (hand == 2) {
             basic.showLeds(`
@@ -50,8 +50,8 @@ input.onButtonPressed(Button.A, function () {
                 `)
             SetHand = 2
             ready = 1
-            radio.sendMessage(RadioMessage.rock)
-            radio.sendMessage(RadioMessage.isReady)
+            radio.sendMessage(RadioMessage.message1)
+            radio.sendMessage(RadioMessage.message1)
         }
         if (hand == 3) {
             basic.showLeds(`
@@ -63,8 +63,8 @@ input.onButtonPressed(Button.A, function () {
                 `)
             SetHand = 3
             ready = 1
-            radio.sendMessage(RadioMessage.scissors)
-            radio.sendMessage(RadioMessage.isReady)
+            radio.sendMessage(RadioMessage.message1)
+            radio.sendMessage(RadioMessage.message1)
         }
     }
 })
