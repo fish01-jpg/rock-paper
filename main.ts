@@ -68,9 +68,6 @@ input.onButtonPressed(Button.A, function () {
         }
     }
 })
-radio.onReceivedMessage(RadioMessage.anidone, function () {
-    radio.setGroup(radio_number)
-})
 input.onButtonPressed(Button.AB, function () {
     if (pair == 0) {
         radio_number = randint(10, 60)
@@ -141,9 +138,6 @@ input.onButtonPressed(Button.B, function () {
             `)
     }
 })
-input.onGesture(Gesture.Shake, function () {
-	
-})
 radio.onReceivedMessage(RadioMessage.rock, function () {
     hand2 = 2
 })
@@ -200,6 +194,23 @@ isReady = 0
 ready = 0
 radio.setGroup(2)
 basic.forever(function () {
+    radio.setGroup(radio_number)
+    if (won == 1) {
+        basic.showNumber(1)
+    }
+    if (won == 2) {
+        basic.showNumber(2)
+    }
+    if (won == 3) {
+        basic.showNumber(3)
+    }
+})
+basic.forever(function () {
+    if (hand > 3) {
+        hand = 0
+    }
+})
+basic.forever(function () {
     if (isReady == 1 && aniDone == 0) {
         basic.showIcon(IconNames.SmallDiamond)
         basic.showIcon(IconNames.Diamond)
@@ -232,22 +243,5 @@ basic.forever(function () {
                 # # . # #
                 `)
         }
-    }
-})
-basic.forever(function () {
-    if (hand > 3) {
-        hand = 0
-    }
-})
-basic.forever(function () {
-    radio.setGroup(radio_number)
-    if (won == 1) {
-        basic.showNumber(1)
-    }
-    if (won == 2) {
-        basic.showNumber(2)
-    }
-    if (won == 3) {
-        basic.showNumber(3)
     }
 })
