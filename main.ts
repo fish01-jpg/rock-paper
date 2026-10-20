@@ -4,7 +4,8 @@ enum RadioMessage {
     paper = 2792,
     rock = 22024,
     scissors = 45135,
-    isReady = 7521
+    isReady = 7521,
+    anidone = 37833
 }
 radio.onReceivedNumber(function (receivedNumber) {
     if (input.buttonIsPressed(Button.AB)) {
@@ -66,6 +67,9 @@ input.onButtonPressed(Button.A, function () {
             radio.sendMessage(RadioMessage.isReady)
         }
     }
+})
+radio.onReceivedMessage(RadioMessage.anidone, function () {
+    radio.setGroup(radio_number)
 })
 input.onButtonPressed(Button.AB, function () {
     if (pair == 0) {
@@ -181,6 +185,7 @@ input.onLogoEvent(TouchButtonEvent.Pressed, function () {
 radio.onReceivedMessage(RadioMessage.scissors, function () {
     hand2 = 3
 })
+let aniDone = 0
 let hand2 = 0
 let SetHand = 0
 let hand = 0
@@ -194,6 +199,41 @@ pair = 0
 isReady = 0
 ready = 0
 radio.setGroup(2)
+basic.forever(function () {
+    if (isReady == 1 && aniDone == 0) {
+        basic.showIcon(IconNames.SmallDiamond)
+        basic.showIcon(IconNames.Diamond)
+        basic.showIcon(IconNames.Target)
+        aniDone = 1
+        if (hand == 1) {
+            basic.showLeds(`
+                . . # # #
+                . # . . #
+                # . . . #
+                # # . # .
+                . # # . .
+                `)
+        }
+        if (hand == 2) {
+            basic.showLeds(`
+                . # # . .
+                . # # # .
+                # # # # #
+                # # # # #
+                . # # # .
+                `)
+        }
+        if (hand == 3) {
+            basic.showLeds(`
+                # . . . #
+                . # . # .
+                . . # . .
+                # # . # #
+                # # . # #
+                `)
+        }
+    }
+})
 basic.forever(function () {
     if (hand > 3) {
         hand = 0
