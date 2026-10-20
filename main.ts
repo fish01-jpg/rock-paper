@@ -204,13 +204,6 @@ loops.everyInterval(1000, function () {
     wait += 1
 })
 basic.forever(function () {
-    if (ready == 1 && aniDone == 0 && won == 10) {
-        basic.showIcon(IconNames.SmallDiamond)
-        basic.showIcon(IconNames.Diamond)
-        basic.showIcon(IconNames.Target)
-    }
-})
-basic.forever(function () {
     radio.setGroup(radio_number)
     if (won == 1) {
         basic.showNumber(1)
@@ -269,5 +262,13 @@ basic.forever(function () {
         }
     } else {
     	
+    }
+})
+basic.forever(function () {
+    if (ready == 1 && aniDone == 0 && won == 10) {
+        basic.showIcon(IconNames.SmallDiamond)
+        basic.showIcon(IconNames.Target)
+        basic.showIcon(IconNames.SmallDiamond)
+        basic.showIcon(IconNames.Target)
     }
 })
